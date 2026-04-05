@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head><title>Python Writer</title></head>
+<body>
+    <h2>Записать данные в Redis</h2>
+    <form method="POST">
+        <label>Ключ: <input type="text" name="key" required></label><br><br>
+        <label>Значение: <input type="text" name="value" required></label><br><br>
+        <input type="submit" value="Записать">
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <hr>
+</body>
+</html>

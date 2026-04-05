@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+spec:
+  selector:
+    app: redis
+  ports:
+    - port: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.2-alpine
+          ports:
+            - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-writer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-writer
+  template:
+    metadata:
+      labels:
+        app: python-writer
+    spec:
+      containers:
+        - name: python
+          image: python-writer
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-writer-service
+spec:
+  selector:
+    app: python-writer
+  ports:
+    - port: 80
+      targetPort: 5000
+  type: NodePort
